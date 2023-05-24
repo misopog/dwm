@@ -28,7 +28,7 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
+static const int topbar             = 0;        /* 0 means bottom bar */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
@@ -37,6 +37,11 @@ static const char *fonts[]          = { "JetBrains Mono Nerd Font:size=10" };
 static const char dmenufont[]       = "JetBrains Mono:size=10";
 static const unsigned int baralpha = 1280731835;
 static const unsigned int borderalpha = OPAQUE;
+#define wal "/home/anon/cache/wal/colors-wal-dwm.h"
+
+#if __has_include(wal)
+#include wal
+#else
 static const char col_gray1[]       = "#101010";
 static const char col_gray2[]       = "#454545";
 static const char col_gray3[]       = "#999999";
@@ -48,6 +53,7 @@ static const char *colors[][3]      = {
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray1 },
 	[SchemeSel]  = { col_gray4, col_gray5, col_gray2 },
 };
+#endif
 static const unsigned int alphas[][3]      = {
 	/*               fg      bg        border     */
 	[SchemeNorm] = { OPAQUE, OPAQUE, borderalpha },
@@ -130,7 +136,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, NULL };
+static const char *dmenucmd[] = { "dmenu_run", , "-b", "-fn", dmenufont, NULL };
 static const char *rofidruncmd[] = { "rofi", "-show", "drun", "-show-icons", NULL };
 static const char *rofiruncmd[] = { "rofi", "-show", "run", "-show-icons", NULL };
 static const char *termcmd[]  = { "st"};
