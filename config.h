@@ -136,7 +136,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", , "-b", "-fn", dmenufont, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-b", "-fn", dmenufont, NULL };
 static const char *rofidruncmd[] = { "rofi", "-show", "drun", "-show-icons", NULL };
 static const char *rofiruncmd[] = { "rofi", "-show", "run", "-show-icons", NULL };
 static const char *termcmd[]  = { "st"};
