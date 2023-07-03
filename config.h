@@ -28,32 +28,26 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 0;        /* 0 means bottom bar */
+static const int topbar             = 1;        /* 0 means bottom bar */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray             = 1;   /* 0 means no systray */
-static const char *fonts[]          = { "JetBrains Mono Nerd Font:size=10" }; 
+static const char *fonts[]          = { "JetBrains Mono Nerd Font:size=10", "Noto Sans CJK JP:style=Regular:pixelsize=12" }; 
 static const char dmenufont[]       = "JetBrains Mono:size=10";
 static const unsigned int baralpha = 1280731835;
 static const unsigned int borderalpha = OPAQUE;
-#define wal "/home/anon/cache/wal/colors-wal-dwm.h"
-
-#if __has_include(wal)
-#include wal
-#else
-static const char col_gray1[]       = "#101010";
-static const char col_gray2[]       = "#454545";
-static const char col_gray3[]       = "#999999";
-static const char col_gray4[]       = "#b9b9b9";
-static const char col_gray5[]       = "#252525";
+static const char col_gray1[]       = "#000000";
+static const char col_gray2[]       = "#444444";
+static const char col_gray3[]       = "#bbbbbb";
+static const char col_gray4[]       = "#eeeeee";
+static const char col_gray5[]       = "#000000";
 static const char *colors[][3]      = {
 
 /*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray1 },
 	[SchemeSel]  = { col_gray4, col_gray5, col_gray2 },
 };
-#endif
 static const unsigned int alphas[][3]      = {
 	/*               fg      bg        border     */
 	[SchemeNorm] = { OPAQUE, OPAQUE, borderalpha },
@@ -67,16 +61,18 @@ typedef struct {
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
 const char *spcmd2[] = {"st", "-n", "spcmus", "-g", "126x31", "-e", "cmus", NULL };
 const char *spcmd3[] = {"st", "-n", "spcalc", "-g", "126x31", "-e", "qalc", NULL };
+const char *spcmd4[] = {"st", "-n", "spfm", "-g", "126x31", "-e", "ranger", NULL };
 
 static Sp scratchpads[] = {
 	/* name	       cmd */
 	{"spterm",    spcmd1},
 	{"spcmus",    spcmd2},
 	{"spcalc",    spcmd3},
+	{"spfm",    spcmd4},
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6" };
+static const char *tags[] = { "一", "二", "三", "四", "五", "六" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -90,6 +86,7 @@ static const Rule rules[] = {
 	{ NULL,     "spterm",	  NULL,	      SPTAG(0),	      1,				 -1 },	
 	{ NULL,     "spcmus",	  NULL,	      SPTAG(1),	      1,				 -1 },	
 	{ NULL,     "spcalc",	  NULL,	      SPTAG(2),	      1,				 -1 },	
+	{ NULL,     "spfm",	  NULL,	      SPTAG(3),	      1,				 -1 },	
 	{ NULL,       NULL,       "Event Tester",  0,         0,          0,           1,        -1 }, /* xev */
 
 };
@@ -146,12 +143,13 @@ static Key keys[] = {
  	{ MODKEY,                       XK_s,      togglescratch,  {.ui = 0} },
  	{ MODKEY,                       XK_m,      togglescratch,  {.ui = 1} },
  	{ MODKEY,                       XK_c,      togglescratch,  {.ui = 2} },
+ 	{ MODKEY|ShiftMask,             XK_e,      togglescratch,  {.ui = 3} },
   { 0,                            print,     spawn,          SHCMD("screen full")},
   { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("screen select")},
+  { MODKEY|ShiftMask,             XK_w,      spawn,          SHCMD("walrandom")},
  	{ MODKEY|ShiftMask,             XK_c,      spawn,          SHCMD("cam") },
- 	{ MODKEY,                       XK_w,      spawn,          SHCMD("firefox") },
+ 	{ MODKEY,                       XK_w,      spawn,          SHCMD("qutebrowser") },
  	{ MODKEY,                       XK_e,      spawn,          SHCMD("pcmanfm") },
- 	{ MODKEY|ShiftMask,             XK_e,      spawn,          SHCMD("rofi -modi emoji -show emoji -kb-custom-1 Ctrl-c") },
 /*	{ MODKEY,			                  XK_d,	     spawn,          {.v = dmenucmd } }, */
 	{ MODKEY,			                  XK_d,	     spawn,          {.v = rofidruncmd } },
 	{ MODKEY|ShiftMask,             XK_d,	     spawn,          {.v = rofiruncmd } },
@@ -179,10 +177,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
-/*	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
+	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },*/
+	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
