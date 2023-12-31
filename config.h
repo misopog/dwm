@@ -133,9 +133,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-b", "-fn", dmenufont, NULL };
-static const char *rofidruncmd[] = { "rofi", "-show", "drun", "-show-icons", NULL };
-static const char *rofiruncmd[] = { "rofi", "-show", "run", "-show-icons", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_gray5, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st"};
 
 static Key keys[] = {
@@ -150,9 +148,7 @@ static Key keys[] = {
  	{ MODKEY|ShiftMask,             XK_c,      spawn,          SHCMD("cam") },
  	{ MODKEY,                       XK_w,      spawn,          SHCMD("qutebrowser") },
  	{ MODKEY,                       XK_e,      spawn,          SHCMD("pcmanfm") },
-/*	{ MODKEY,			                  XK_d,	     spawn,          {.v = dmenucmd } }, */
-	{ MODKEY,			                  XK_d,	     spawn,          {.v = rofidruncmd } },
-	{ MODKEY|ShiftMask,             XK_d,	     spawn,          {.v = rofiruncmd } },
+	{ MODKEY,			                  XK_d,	     spawn,          {.v = dmenucmd } }, 
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ 0,		     XF86XK_AudioRaiseVolume,      spawn, 	       SHCMD("changevolume up")   },
 	{ 0, 	     	 XF86XK_AudioLowerVolume,      spawn, 	       SHCMD("changevolume down") },
